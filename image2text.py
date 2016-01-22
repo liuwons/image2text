@@ -1,0 +1,41 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import sys
+from PIL import Image
+
+def image_to_text(pixels, width, height):
+    color = "MNHQ$OC?7>!:-;. "
+    string = ""
+    for h in xrange(height):
+        for w in xrange(width):
+            rgb = pixels[w, h]
+            string += color[int(sum(rgb) / 3.0 / 256.0 * 16)]
+        string += "\n"
+    return string
+
+def load_and_resize_image(imgname, width, height):
+    img = Image.open(imgname)
+    if img.mode != 'RGB':
+        img = img.convert('RGB')
+    w, h = img.size
+    rw = width * 1.0 / w
+    rh = height * 1.0 / h
+    r = rw if rw < rh else rh
+    rw = int(r * w)
+    rh = int(r * h)
+    img = img.resize((rw, rh), Image.ANTIALIAS)
+    return img
+
+if __name__ == '__main__':
+    imgname = sys.argv[1]
+    w = int(sys.argv[2])
+    h = int(sys.argv[3])
+    try:
+        img = load_and_resize_image(imgname, w, h)
+    except IOError:
+        exit("File not found: " + imgname)
+    pixels = img.load()
+    width, height = img.size
+    string = image_to_text(pixels, width, height)
+    print string
