@@ -27,15 +27,16 @@ def load_and_resize_image(imgname, width, height):
     img = img.resize((rw, rh), Image.ANTIALIAS)
     return img
 
+def image_file_to_text(img_file_path, dst_width, dst_height):
+    img = load_and_resize_image(img_file_path, dst_width, dst_height)
+    pixels = img.load()
+    width, height = img.size
+    string = image_to_text(pixels, width, height)
+    return string
+
+
 if __name__ == '__main__':
     imgname = sys.argv[1]
     w = int(sys.argv[2])
     h = int(sys.argv[3])
-    try:
-        img = load_and_resize_image(imgname, w, h)
-    except IOError:
-        exit("File not found: " + imgname)
-    pixels = img.load()
-    width, height = img.size
-    string = image_to_text(pixels, width, height)
-    print string
+    print image_file_to_text(imgname, w, h)
