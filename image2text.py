@@ -36,7 +36,7 @@ def image_file_to_text(img_file_path, dst_width, dst_height):
 
 
 if __name__ == '__main__':
-    imgname = sys.argv[1]
-    w = int(sys.argv[2])
-    h = int(sys.argv[3])
+    imgname = sys.argv[1] # Image file path
+    w = int(sys.argv[2]) # width
+    h = int(sys.argv[3]) # height
     print image_file_to_text(imgname, w, h)
